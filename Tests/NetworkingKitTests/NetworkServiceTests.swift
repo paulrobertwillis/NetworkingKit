@@ -1,10 +1,5 @@
-//
-//  NetworkServiceTests.swift
-//  MovieAppTests
-//
-//  Created by Paul on 15/06/2022.
-//
-
+@testable import NetworkingKit
+import NetworkLogger
 import XCTest
 
 public enum NetworkErrorMock: Error {
@@ -19,7 +14,7 @@ class NetworkServiceTests: XCTestCase {
     }
         
     private var networkRequestPerformer: NetworkRequestPerformerMock?
-    private var logger: NetworkLoggerMock = NetworkLoggerMock()
+    private var logger: NetworkLoggerMock! = NetworkLoggerMock()
 
     private var sut: NetworkService?
     
@@ -29,7 +24,7 @@ class NetworkServiceTests: XCTestCase {
     private var expectedError: NetworkErrorMock?
     
     private var returnedResult: ReturnedResult?
-    private var returnedValue: [Genre]?
+    private var returnedValue: [Decodable]?
     private var returnedData: Data?
     private var returnedError: Error?
     
@@ -53,7 +48,7 @@ class NetworkServiceTests: XCTestCase {
     
     override func tearDown() {
         self.networkRequestPerformer = nil
-//        self.logger = nil
+        self.logger = nil
         
         self.sut = nil
         
@@ -336,7 +331,7 @@ class NetworkServiceTests: XCTestCase {
         
     private func givenRequestWillSucceed() {
         createRequestStub()
-        initialiseNetworkRequestPerformer(data: TMDBResponseMocks.Genres.getGenres.successResponse(), response: createSuccessResponseStub(), error: nil)
+        initialiseNetworkRequestPerformer(data: stubDecodableJsonData, response: createSuccessResponseStub(), error: nil)
         initialiseNetworkService()
     }
     

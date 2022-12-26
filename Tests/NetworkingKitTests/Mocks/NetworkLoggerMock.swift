@@ -1,12 +1,5 @@
-//
-//  DataTransferLoggerMock.swift
-//  MovieAppTests
-//
-//  Created by Paul on 06/07/2022.
-//
-
-import Foundation
-@testable import MovieApp
+@testable import NetworkingKit
+import NetworkLogger
 
 class NetworkLoggerMock: NetworkLoggerProtocol {
     
@@ -15,37 +8,29 @@ class NetworkLoggerMock: NetworkLoggerProtocol {
     var logRequestCallsCount: Int = 0
     
     // response
-    var logRequestParameterReceived: NetworkRequest?
-        
-    var mostRecentRequestLog: Log?
-    var requestLogs: [Log] = []
+    var logRequestParameterReceived: NetworkLogger.LoggableRequest?
     
-    func log(_ request: NetworkRequest) {
+    func log(_ request: NetworkLogger.LoggableRequest) {
         self.logRequestCallsCount += 1
         self.logRequestParameterReceived = request
 
     }
-    
-    
-    
+        
     // MARK: - log(_ response: HTTPURLResponse)
     
     var logResponseCallsCount: Int = 0
     
     // response
-    var logResponseParameterReceived: NetworkResponse?
+    var logResponseParameterReceived: NetworkLogger.LoggableResponse?
     
     // withError
     var logRequestWithErrorParameterReceived: Error?
     
-    var mostRecentResponseLog: Log?
-    var responseLogs: [Log] = []
-
-    func log(_ response: NetworkResponse) {
+    func log(_ response: NetworkLogger.LoggableResponse) {
         self.log(response, withError: nil)
     }
     
-    func log(_ response: NetworkResponse, withError error: Error?) {
+    func log(_ response: NetworkLogger.LoggableResponse, withError error: Error?) {
         self.logResponseCallsCount += 1
         self.logResponseParameterReceived = response
     }

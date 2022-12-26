@@ -1,9 +1,29 @@
 @testable import NetworkingKit
 import XCTest
 
+struct StubResponseDTO: Codable, Equatable {
+    let page: Int
+    let results: [StubDTO]
+}
+
+struct StubDTO: Codable, Equatable {
+    let title: String
+}
+
+let stubData = """
+    {
+        "page": 1,
+        "results": [
+            {
+                "title": "Stub"
+            }
+        ]
+    }
+""".data(using: .utf8)!
+
 class DataTransferServiceTests: XCTestCase {
     
-    typealias Sut = DataTransferService<GenresResponseDTO>
+    typealias Sut = DataTransferService<StubResponseDTO>
     
     private enum ReturnedResult {
         case success
@@ -23,19 +43,17 @@ class DataTransferServiceTests: XCTestCase {
     private var sentURLRequest: URLRequest?
     private var urlRequestReceivedByNetworkService: URLRequest?
     
-    private var expectedGenres = GenresResponseDTO(genres: [
-        GenresResponseDTO.GenreDTO(id: 28, name: "Action")
-    ])
-    private var returnedGenres: GenresResponseDTO?
+    private var expectedResponseDTO = StubResponseDTO(page: 1, results: [StubDTO(title: "Stub")])
+    private var returnedResponseDTO: StubResponseDTO?
     
     private var returnedResult: ReturnedResult?
     private var returnedError: Error?
 
     private func completion(_ result: Sut.ResultValue) {
         switch result {
-        case .success(let returnedGenres):
+        case .success(let returnedDTO):
             self.returnedResult = .success
-            self.returnedGenres = returnedGenres
+            self.returnedResponseDTO = returnedDTO
         case .failure(let returnedError):
             self.returnedResult = .failure
             self.returnedError = returnedError
@@ -61,7 +79,7 @@ class DataTransferServiceTests: XCTestCase {
         self.sentURLRequest = nil
         self.urlRequestReceivedByNetworkService = nil
         
-        self.returnedGenres = nil
+        self.returnedResponseDTO = nil
         
         self.returnedResult = nil
         self.returnedError = nil
@@ -129,13 +147,9 @@ class DataTransferServiceTests: XCTestCase {
         thenEnsureReturnsFailureResult()
     }
     
-    // TODO: Think on this test and whether it is fit for purpose. Should it be specific about Genres?
-    func test_DataTransferService_whenPerformsSuccessfulRequest_shouldReturnGenres() {
-        // given
-        self.networkService?.requestCompletionReturnValue = .success(TMDBResponseMocks.Genres.getGenres.successResponse())
-
+    func test_DataTransferService_whenPerformsSuccessfulRequest_shouldReturnDecodableObject() {
         // when
-        whenNetworkRequestIsPerformed()
+        whenPerformsSuccessfulRequest()
         
         // then
         thenEnsureReturnsGenres()
@@ -270,7 +284,7 @@ class DataTransferServiceTests: XCTestCase {
 
     
     // MARK: - Given
-        
+    
     private func givenExpectedNetworkRequestResponse(of urlSessionTask: URLSessionTask? = nil) {
         self.expectedReturnedURLSessionTask = urlSessionTask ?? URLSessionTask()
         self.networkService?.requestReturnValue = expectedReturnedURLSessionTask
@@ -294,15 +308,15 @@ class DataTransferServiceTests: XCTestCase {
         
     // MARK: - Then
     
-    private func thenEnsureReturnsURLSessionTask() {
-        XCTAssertNotNil(self.returnedURLSessionTask)
+    private func thenEnsureReturnsURLSessionTask(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertNotNil(self.returnedURLSessionTask, file: file, line: line)
     }
     
-    private func thenEnsureNetworkServiceCalledExactlyOnce() {
-        XCTAssertEqual(self.networkService?.requestCallsCount, 1)
+    private func thenEnsureNetworkServiceCalledExactlyOnce(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertEqual(self.networkService?.requestCallsCount, 1, file: file, line: line)
     }
     
-    private func thenEnsureReturnsURLSessionTaskFromNetworkService() {
+    private func thenEnsureReturnsURLSessionTaskFromNetworkService(file: StaticString = #file, line: UInt = #line) {
         guard
             let expectedReturnedURLSessionTask = self.expectedReturnedURLSessionTask,
             let returnedURLSessionTask = self.returnedURLSessionTask
@@ -311,40 +325,40 @@ class DataTransferServiceTests: XCTestCase {
             return
         }
         
-        XCTAssertEqual(expectedReturnedURLSessionTask, returnedURLSessionTask)
+        XCTAssertEqual(expectedReturnedURLSessionTask, returnedURLSessionTask, file: file, line: line)
     }
     
-    private func thenEnsureRequestIsPassedToNetworkService() {
-        XCTAssertEqual(urlRequest(), networkService?.requestReceivedRequest)
+    private func thenEnsureRequestIsPassedToNetworkService(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertEqual(urlRequest(), networkService?.requestReceivedRequest, file: file, line: line)
     }
     
-    private func thenEnsureReturnsResult() {
-        XCTAssertNotNil(self.returnedResult)
+    private func thenEnsureReturnsResult(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertNotNil(self.returnedResult, file: file, line: line)
     }
     
-    private func thenEnsureReturnsSuccessResult() {
-        XCTAssertEqual(self.returnedResult, .success)
+    private func thenEnsureReturnsSuccessResult(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertEqual(self.returnedResult, .success, file: file, line: line)
     }
 
-    private func thenEnsureReturnsFailureResult() {
-        XCTAssertEqual(self.returnedResult, .failure)
+    private func thenEnsureReturnsFailureResult(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertEqual(self.returnedResult, .failure, file: file, line: line)
     }
     
-    private func thenEnsureReturnsGenres() {
-        XCTAssertNotNil(self.returnedGenres)
+    private func thenEnsureReturnsGenres(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertNotNil(self.returnedResponseDTO, file: file, line: line)
     }
     
-    private func thenEnsureReturnsError() {
-        XCTAssertNotNil(self.returnedError)
+    private func thenEnsureReturnsError(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertNotNil(self.returnedError, file: file, line: line)
     }
     
-    private func thenEnsureNetworkServiceCalled(numberOfTimes expectedCalls: Int) {
+    private func thenEnsureNetworkServiceCalled(numberOfTimes expectedCalls: Int, file: StaticString = #file, line: UInt = #line) {
         let actualCalls = self.networkService?.requestCallsCount
-        XCTAssertEqual(expectedCalls, actualCalls)
+        XCTAssertEqual(expectedCalls, actualCalls, file: file, line: line)
     }
     
-    private func thenEnsureDecodesDataIntoExpectedObject() {
-        XCTAssertEqual(self.expectedGenres, self.returnedGenres)
+    private func thenEnsureDecodesDataIntoExpectedObject(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertEqual(self.expectedResponseDTO, self.returnedResponseDTO, file: file, line: line)
     }
     
     // MARK: - Test Setup Errors
@@ -364,6 +378,6 @@ class DataTransferServiceTests: XCTestCase {
     }
     
     private func createMockSuccessfulResponseFromNetworkService() {
-        self.networkService?.requestCompletionReturnValue = .success(TMDBResponseMocks.Genres.getGenres.successResponse())
+        self.networkService?.requestCompletionReturnValue = .success(stubData)
     }
 }

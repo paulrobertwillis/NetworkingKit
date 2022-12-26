@@ -1,12 +1,5 @@
-//
-//  NetworkServiceMock.swift
-//  MovieAppTests
-//
-//  Created by Paul on 29/06/2022.
-//
-
 import Foundation
-@testable import MovieApp
+@testable import NetworkingKit
 
 class NetworkServiceMock: NetworkServiceProtocol {
     

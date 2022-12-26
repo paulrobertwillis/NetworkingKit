@@ -6,18 +6,12 @@
 //
 
 import XCTest
+@testable import NetworkingKit
 
 class JSONResponseDecoderTests: XCTestCase {
     
     private var sut: JSONResponseDecoder?
-    
-    private let objectAsData = """
-        {
-            "forename": "Anon",
-            "surname": "Ymous"
-        }
-        """.data(using: .utf8)!
-    
+        
     // MARK: - Setup
     
     override func setUp() {
@@ -46,7 +40,7 @@ class JSONResponseDecoderTests: XCTestCase {
             // When
             let forename = "Anon"
             let surname = "Ymous"
-            let user: User = try sut.decode(self.objectAsData)
+            let user: User = try sut.decode(stubDecodableJsonData)
 
             // Then
             XCTAssertEqual(user.forename, forename)

@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "networklogger",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/paulrobertwillis/NetworkLogger",
+      "state" : {
+        "revision" : "a8cac2c196d7953d084ad23492a4fc47b6b0235e",
+        "version" : "1.0.1"
+      }
+    }
+  ],
+  "version" : 2
+}

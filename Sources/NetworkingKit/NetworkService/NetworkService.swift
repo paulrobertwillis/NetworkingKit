@@ -1,29 +1,5 @@
 import Foundation
-
-enum NetworkError: Error {
-    case error(statusCode: Int)
-    case generic(Error)
-    case someError
-}
-
-struct NetworkRequest {
-    let urlRequest: URLRequest
-    var requestName: RequestName
-}
-
-struct NetworkResponse {
-    let urlResponse: HTTPURLResponse
-    var requestName: RequestName
-    let data: Data?
-    
-    init(urlResponse: HTTPURLResponse,
-         requestName: RequestName,
-         data: Data? = nil) {
-        self.urlResponse = urlResponse
-        self.requestName = requestName
-        self.data = data
-    }
-}
+import NetworkLogger
 
 protocol NetworkServiceProtocol {
     typealias ResultValue = (Result<Data?, NetworkError>)

@@ -1,12 +1,5 @@
-//
-//  NetworkRequestPerformerMock.swift
-//  MovieAppTests
-//
-//  Created by Paul on 01/07/2022.
-//
-
 import Foundation
-@testable import MovieApp
+@testable import NetworkingKit
 
 class NetworkRequestPerformerMock: NetworkRequestPerformerProtocol {
     
