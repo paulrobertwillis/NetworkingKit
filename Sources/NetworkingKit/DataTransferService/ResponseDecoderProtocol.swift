@@ -13,7 +13,7 @@ public protocol ResponseDecoderProtocol {
 
 // MARK: - JSONResponseDecoder
 
-class JSONResponseDecoder: ResponseDecoderProtocol {
+public class JSONResponseDecoder: ResponseDecoderProtocol {
     // MARK: - Private Properties
     private let jsonDecoder = JSONDecoder()
 
@@ -24,7 +24,7 @@ class JSONResponseDecoder: ResponseDecoderProtocol {
 
 // MARK: - RawDataResponseDecoder
 
-class RawDataResponseDecoder: ResponseDecoderProtocol {
+public class RawDataResponseDecoder: ResponseDecoderProtocol {
     
     enum CodingKeys: String, CodingKey {
         case `default` = ""
