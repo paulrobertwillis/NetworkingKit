@@ -23,7 +23,7 @@ protocol DataTransferServiceProtocol {
     func request(_ request: URLRequest, decoder: ResponseDecoderProtocol, completion: @escaping CompletionHandler) -> URLSessionTask?
 }
 
-class DataTransferService<GenericDecodable: Decodable>: DataTransferServiceProtocol {
+public class DataTransferService<GenericDecodable: Decodable>: DataTransferServiceProtocol {
     
     // MARK: - Private Properties
     
