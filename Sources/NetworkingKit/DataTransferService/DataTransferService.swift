@@ -37,7 +37,7 @@ public class DataTransferService<GenericDecodable: Decodable>: DataTransferServi
     }
         
     @discardableResult
-    func request(_ request: URLRequest, decoder: ResponseDecoderProtocol, completion: @escaping (Result<GenericDecodable, DataTransferError>) -> Void) -> URLSessionTask? {
+    public func request(_ request: URLRequest, decoder: ResponseDecoderProtocol, completion: @escaping (Result<GenericDecodable, DataTransferError>) -> Void) -> URLSessionTask? {
         
         let dataSessionTask = self.networkService.request(request: request) { result in
             switch result {
