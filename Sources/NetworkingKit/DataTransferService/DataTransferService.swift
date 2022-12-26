@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DataTransferError: Error {
+public enum DataTransferError: Error {
     case parsingFailure(Error)
     case missingData
     case decodingFailure
