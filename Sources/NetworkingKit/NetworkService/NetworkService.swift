@@ -9,7 +9,7 @@ protocol NetworkServiceProtocol {
     func request(request: URLRequest, completion: @escaping CompletionHandler) -> URLSessionTask?
 }
 
-class NetworkService {
+public class NetworkService {
     
     // MARK: - Private Properties
     
