@@ -1,10 +1,3 @@
-//
-//  ResponseDecoder.swift
-//  MovieApp
-//
-//  Created by Paul on 01/07/2022.
-//
-
 import Foundation
 
 public protocol ResponseDecoderProtocol {
@@ -14,9 +7,12 @@ public protocol ResponseDecoderProtocol {
 // MARK: - JSONResponseDecoder
 
 public class JSONResponseDecoder: ResponseDecoderProtocol {
+    
     // MARK: - Private Properties
     private let jsonDecoder = JSONDecoder()
 
+    // MARK: - API
+    
     public func decode<T: Decodable>(_ data: Data) throws -> T {
         try jsonDecoder.decode(T.self, from: data)
     }
@@ -30,6 +26,8 @@ public class RawDataResponseDecoder: ResponseDecoderProtocol {
         case `default` = ""
     }
 
+    // MARK: - API
+    
     public func decode<T: Decodable>(_ data: Data) throws -> T {
         if T.self is Data.Type, let data = data as? T {
             return data
