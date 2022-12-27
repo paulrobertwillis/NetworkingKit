@@ -1,7 +1,7 @@
 import Foundation
 import NetworkLogger
 
-protocol NetworkServiceProtocol {
+public protocol NetworkServiceProtocol {
     typealias ResultValue = (Result<Data?, NetworkError>)
     typealias CompletionHandler = (ResultValue) -> Void
 
@@ -35,7 +35,7 @@ public class NetworkService {
 extension NetworkService: NetworkServiceProtocol {
     
     @discardableResult
-    func request(request: URLRequest, completion: @escaping CompletionHandler) -> URLSessionTask? {
+    public func request(request: URLRequest, completion: @escaping CompletionHandler) -> URLSessionTask? {
 
         let task = self.networkRequestPerformer.request(request: request) { data, response, error in
             
