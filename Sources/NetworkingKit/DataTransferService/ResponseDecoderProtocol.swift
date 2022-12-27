@@ -17,6 +17,10 @@ public class JSONResponseDecoder: ResponseDecoderProtocol {
     public func decode<T: Decodable>(_ data: Data) throws -> T {
         try jsonDecoder.decode(T.self, from: data)
     }
+    
+    // MARK: - Init
+    
+    public init() {}
 }
 
 // MARK: - RawDataResponseDecoder
@@ -37,4 +41,9 @@ public class RawDataResponseDecoder: ResponseDecoderProtocol {
             throw Swift.DecodingError.typeMismatch(T.self, context)
         }
     }
+    
+    // MARK: - Init
+    
+    public init() {}
+
 }
