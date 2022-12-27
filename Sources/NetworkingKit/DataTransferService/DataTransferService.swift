@@ -13,7 +13,7 @@ public enum DataTransferError: Error {
     case decodingFailure
 }
 
-protocol DataTransferServiceProtocol {
+public protocol DataTransferServiceProtocol {
     associatedtype GenericDecodable: Decodable
     
     typealias ResultValue = (Result<GenericDecodable, DataTransferError>)
@@ -35,6 +35,13 @@ public class DataTransferService<GenericDecodable: Decodable>: DataTransferServi
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
     }
+    
+    public convenience init() {
+        let networkService = NetworkService()
+        self.init(networkService: networkService)
+    }
+    
+    // MARK: - API
         
     @discardableResult
     public func request(_ request: URLRequest, decoder: ResponseDecoderProtocol, completion: @escaping (Result<GenericDecodable, DataTransferError>) -> Void) -> URLSessionTask? {
