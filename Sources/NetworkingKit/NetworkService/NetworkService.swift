@@ -23,7 +23,7 @@ public class NetworkService {
         self.logger = logger
     }
     
-    public convenience init() {
+    convenience init() {
         let networkRequestPerformer = NetworkRequestPerformer()
         let networkLogger = NetworkLogger()
         self.init(networkRequestPerformer: networkRequestPerformer, logger: networkLogger)

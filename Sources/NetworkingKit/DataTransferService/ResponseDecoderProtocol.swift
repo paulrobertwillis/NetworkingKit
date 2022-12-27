@@ -9,6 +9,7 @@ public protocol ResponseDecoderProtocol {
 public class JSONResponseDecoder: ResponseDecoderProtocol {
     
     // MARK: - Private Properties
+    
     private let jsonDecoder = JSONDecoder()
 
     // MARK: - API
