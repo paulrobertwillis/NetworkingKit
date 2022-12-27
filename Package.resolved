@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/paulrobertwillis/NetworkLogger",
       "state" : {
-        "revision" : "a8cac2c196d7953d084ad23492a4fc47b6b0235e",
-        "version" : "1.0.1"
+        "revision" : "bf0e9f468450275243c8ede46d4430033b545299",
+        "version" : "1.0.3"
       }
     }
   ],

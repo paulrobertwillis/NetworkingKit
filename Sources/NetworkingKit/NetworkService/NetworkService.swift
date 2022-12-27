@@ -22,6 +22,12 @@ class NetworkService {
         self.networkRequestPerformer = networkRequestPerformer
         self.logger = logger
     }
+    
+    public convenience init() {
+        let networkRequestPerformer = NetworkRequestPerformer()
+        let networkLogger = NetworkLogger()
+        self.init(networkRequestPerformer: networkRequestPerformer, logger: networkLogger)
+    }
 }
 
 // MARK: - NetworkServiceProtocol
